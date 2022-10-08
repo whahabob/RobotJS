@@ -8,25 +8,25 @@ var screenSize = robot.getScreenSize();
 var height = 1080
 var width = 1920;
 
-var furnance = {x:1180, y: 401}
+var furnance = {x:802, y: 299}
 
-var bank = {x:407, y:736};
+var bank = {x:233, y:539};
 
-var withdral = {x:899, y:824};
+var withdral = {x:620, y:565};
 
-var tinOre = {x:876, y:143};
-var copperOre = {x:876, y:179};
+var tinOre = {x:595, y:121};
+var copperOre = {x:595, y:154};
 var outOfClient = {x:1405,y:1070}
 var n = 0;
 
 async function StartSmithing()
 {
-        for(let i = 0; i < 100; i++)
+        for(let i = 0; i < 50; i++)
         {
                 if(n > 180)
                 {
                         console.log("activated running");
-                        await MoveMouseSmooth(1483, 155, true);
+                      //  await MoveMouseSmooth(1483, 155, true);
                         
                 }
                await delay(getRndInteger(10,40)/100)

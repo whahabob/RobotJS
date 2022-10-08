@@ -12,39 +12,47 @@ let drop = false;
 let running = false;
 let amountOfRocks = 0;
 
+let bankFar = {x: 830, y: 89}
+let bankClose = {x:625, y:345}
+
+let altarFar = {x:257, y:709}
+let altarClose = {x:485, y:430}
+
+let rcAltar = {x:557 , y:448}
+let exitPortal = {x:539 ,y:456}
+
+var withdral = {x:621, y:576};
+var essence = {x:600, y: 228}
+
+
 async function StartMining(g = 10000)
 {
-    console.log("Starting mining");
+    console.log("Starting");
     
     await delay(1);
     for(let j = 0; j < g; j++){
        
         while(running)
         {
-                if(rockAviable[nGlobal])
-                {
-                    console.log("Click ore");
-                    await ClickRockAndDrop(mousePos[nGlobal].x,mousePos[nGlobal].y);
-                    console.log("clicked ore, waiting for drop");
-                    await until(_ => drop == true || rockAviable[nGlobal] == false );
-                    console.log("drop noticed, click for drop");
-                    await DropOre();
-                    console.log("clicked drop");
+               
                     
-                }
-
-                
-                
-               if(nGlobal >= rockAviable.length - 1)
-               {
-                nGlobal = 0;
-               }
-               else
-               {
-                nGlobal++;
-               }
-            
-            await delay(1/10);
+                 await MoveMouseSmooth(altarFar.x, altarFar.y, true);
+                 await delay(50);
+                 await MoveMouseSmooth(altarClose.x, altarClose.y, true);
+                 await delay(11);
+                 await MoveMouseSmooth(rcAltar.x, rcAltar.y,true);
+                 await delay(7);
+                 await MoveMouseSmooth(exitPortal.x, exitPortal.y, true);
+                 await delay(7);
+                 await MoveMouseSmooth(bankFar.x, bankFar.y, true);
+                 await delay(50);
+                 await MoveMouseSmooth(bankClose.x, bankClose.y, true);
+                 await delay(9);
+                 await MoveMouseSmooth(GetSmallRandomValueAroundPoint(withdral.x),GetSmallRandomValueAroundPoint(withdral.y),true);
+                 await delay(getRndInteger(1,3)/10);
+                 await MoveMouseSmooth(GetSmallRandomValueAroundPoint(essence.x),GetSmallRandomValueAroundPoint(essence.y),true);
+                 await delay(getRndInteger(1,3)/5);
+                    
         } 
         while(!running)
         {
@@ -54,46 +62,9 @@ async function StartMining(g = 10000)
     }
 }
 
-async function Login()
+function GetSmallRandomValueAroundPoint(x )
 {
-    robot.moveMouseSmooth(850,315);
-    robot.mouseClick();
-    await delay(1);
-    robot.typeStringDelayed("robotjs", 55);
-
-    await delay(1);
-    robot.keyTap("enter");
-    await delay(10);
-    robot.mouseClick();
-    await delay(15);
-    running = true;
-}
-
-async function ClickRockAndDrop(x, y)
-{
-    let tempPos = GetRandomValueAroundPoint(x, y);
-    await MoveMouseSmooth(tempPos.posX, tempPos.posY, true);
-
-    let pos2 = { posX :  getRndInteger(1476-5, 1476+5),posY : 764 }
-
-
-    await MoveMouseSmooth(pos2.posX, pos2.posY, false);
-
-   
-   
-   
-}
-
-async function DropOre()
-{
-    console.log("Dropping" + amountOfRocks);
-    let pos2 = { posX :  getRndInteger(1476-5, 1476+5),posY : 764 }
-    amountOfRocks++;
-
-
-    robot.moveMouseSmooth(pos2.posX, pos2.posY, 2);
-    await delay(getRndInteger(8,16)/100);
-    robot.mouseClick();
+    return getRndInteger(x-3, x+3);
 }
 
 async function MoveMouseSmooth(x,y, click = false)
@@ -143,95 +114,32 @@ async function MoveMouseSmooth(x,y, click = false)
 
 async function delay(n){
     return await new Promise(function(resolve){
-        var k = getRndInteger(990,1010)
+        var k = getRndInteger(990,1010);
+
         setTimeout(resolve,n*k);
     });
 }
 
 let n = 0;
-function func()  { setInterval(function(){
-    var color = robot.getPixelColor(1476,764);
-    if(color === "3e3529")
+function func()  { setInterval( function(){
+    var color = robot.getPixelColor(1483,155);
+    if(color === "ecda67")
     {
-        n++;
-        drop = false;
+        n = 0;
+        runActive = true;
     }
     else
     {
-        n = 0;
-        drop = true;
-    }
+    
+            n++;
+        runActive = false;
         
-}, 500);}
-
+    } 
+}, 200);}
+var runActive = false;
 func();
 
 let img;
-CheckRockAvaliablity();
-function CheckRockAvaliablity()  
-{ 
-    setInterval(function()
-    {
-        for(let i = 0; i < rocks.length; i++)
-        {
-            //console.log(i);
-            let currentRock = rocks[i];
-            const split = currentRock[0].split(":");
-            
-
-            let total = 1;
-            let wrong = 0;
-            for(let j = 0; j < 1; j++)
-            {
-                for(let rx = 0; rx < 5; rx++)
-                {
-                    for(let rh = 0; rh < 5; rh++)
-                    {
-                        let pos = { x :    Number(split[1]) + rx, y : Number(split[2]) + rh}
-                        var color = img.colorAt(pos.x, pos.y);
-                        
-                        var nRockArray = 1 + (rx * 5) + rh;
-                        var rgbColor = ConvertHexToRGB(color);
-                        var RgbCurrentRock = ConvertHexToRGB(currentRock[nRockArray]);
-                      //  console.log(color + ":" + currentRock[nRockArray]);
-                      // console.log("R:" + difference(rgbColor.r, RgbCurrentRock.r) + "G:"+difference(rgbColor.g, RgbCurrentRock.g)+ "B: " +difference(rgbColor.b, RgbCurrentRock.b));
-        
-                        var rgbDifference = 
-                        {
-                            r: difference(rgbColor.r, RgbCurrentRock.r),
-                            g: difference(rgbColor.g, RgbCurrentRock.g),
-                            b: difference(rgbColor.b, RgbCurrentRock.b)
-        
-                        }
-                        if(rgbDifference.r > 0 && rgbDifference.g > 0 && rgbDifference.b > 0)
-                        {
-                            wrong++;
-                        }
-                        
-                        total++;
-                    }
-                }
-               
-                    
-            }
-            if(wrong/total != 0);
-              
-
-            if(wrong/total < 0.35)
-            {
-               
-                rockAviable[i] = true;
-            }
-            else
-            {
-                rockAviable[i] = false;
-            }
-           // console.log(rockAviable + " : ");
-        }
-                
-    }, 
-     250);
-}
 
 function difference(a, b) {
     return Math.abs(a - b);
