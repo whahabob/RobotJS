@@ -50,12 +50,12 @@ async function StartSmithing()
                 inventoryEmptyFunc();
                 
                 robot.keyTap("1");
-                await delay(0.5);
+                await delay(getRndInteger(5,10)/10);
                 await MoveMouseSmooth(
                         GetSmallRandomValueAroundPoint(outOfClient.x,), 
                         GetSmallRandomValueAroundPoint(outOfClient.y),
                          true);
-                await until(_ => inventoryEmpty == true );
+                await until(_ => inventoryEmpty == true || nInventoryEmpty > 20);
                 clearInterval(inventoryEmptyFuncID);
                 inventoryEmpty = false;
                 await delay(getRndInteger(0,15));
@@ -156,8 +156,11 @@ async function delay(n){
           return Math.floor(Math.random() * (max - min) ) + min;
       }
 var readyAtFurnance = false;
+var nReadyAtFurnance = 0;
 var inventoryEmpty = false;
+var nInventoryEmpty = 0;
 var bankIsOpen = false;
+var nBankIsOpen = 0;
 function func()  {  funcID = setInterval( function(){
         var color = robot.getPixelColor(925,159);
         if(color === "ecda67")
@@ -176,13 +179,13 @@ function func()  {  funcID = setInterval( function(){
         
         if(color2 === "252121")
         {
-            
+            nReadyAtFurnance = 0
             readyAtFurnance = true;
         }
         else
         {
         
-                
+                nReadyAtFurnance++;
                 readyAtFurnance = false;
             
         }
@@ -208,10 +211,12 @@ function inventoryEmptyFunc()  {  inventoryEmptyFuncID = setInterval( function()
     var color3 = robot.getPixelColor(1046,662);
     if(color3 === "3e3529")
     {
+        nInventoryEmpty = 0;
         inventoryEmpty = true;
     }
     else
     {
+        nInventoryEmpty++;
         inventoryEmpty = false;
     }
 }, 8000);}
