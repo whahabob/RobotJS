@@ -8,9 +8,9 @@ var screenSize = robot.getScreenSize();
 var height = 1080
 var width = 1920;
 
-var furnance = {x:789, y: 303 }
+var furnance = {x:789, y: 292 }
 
-var bank = {x:251, y:537};
+var bank = {x:251, y:517};
 
 var withdral = {x:620, y:540};
 
@@ -27,7 +27,7 @@ async function StartSmithing()
                 if(n > 180)
                 {
                         console.log("activated running");
-                      //  await MoveMouseSmooth(1483, 155, true);
+                        await MoveMouseSmooth(925, 159, true);
                         
                 }
                await delay(getRndInteger(10,40)/100)
@@ -36,14 +36,18 @@ async function StartSmithing()
                         GetSmallRandomValueAroundPoint(furnance.x,), 
                         GetSmallRandomValueAroundPoint(furnance.y),
                          true);
-                if(runActive)
-                {
-                        await delay(getRndInteger(5,7));
-                }
-                else
-                {
-                        await delay(getRndInteger(5,7)*2.5);
-                }
+                // if(runActive)
+                // {
+                //         await delay(getRndInteger(5,7));
+                // }
+                // else
+                // {
+                //         await delay(getRndInteger(5,7)*2.5);
+                // }
+                func();
+                await until(_ => readyAtFurnance == true );
+                clearInterval(funcID);
+                inventoryEmptyFunc();
                 
                 robot.keyTap("1");
                 await delay(0.5);
@@ -51,16 +55,16 @@ async function StartSmithing()
                         GetSmallRandomValueAroundPoint(outOfClient.x,), 
                         GetSmallRandomValueAroundPoint(outOfClient.y),
                          true);
-                await delay(getRndInteger(153,165));
+                await until(_ => inventoryEmpty == true );
+                clearInterval(inventoryEmptyFuncID);
+                inventoryEmpty = false;
+                await delay(getRndInteger(0,15));
                 await MoveMouseSmooth(GetSmallRandomValueAroundPoint(bank.x),GetSmallRandomValueAroundPoint(bank.y),true);
-                if(runActive)
-                {
-                        await delay(getRndInteger(5,7));
-                }
-                else
-                {
-                        await delay(getRndInteger(5,7)*2.5);
-                }
+
+                func();
+                await until(_ => bankIsOpen == true);
+                clearInterval(inventoryEmptyFuncID);
+                bankIsOpen = false;
               //  await MoveMouseSmooth(GetSmallRandomValueAroundPoint(withdral.x),GetSmallRandomValueAroundPoint(withdral.y),true);
                 await delay(getRndInteger(1,3)/10);
                 await MoveMouseSmooth(GetSmallRandomValueAroundPoint(tinOre.x),GetSmallRandomValueAroundPoint(tinOre.y),true);
@@ -151,9 +155,11 @@ async function delay(n){
       function getRndInteger(min, max) {
           return Math.floor(Math.random() * (max - min) ) + min;
       }
-
-      function func()  { setInterval( function(){
-        var color = robot.getPixelColor(1,1);
+var readyAtFurnance = false;
+var inventoryEmpty = false;
+var bankIsOpen = false;
+function func()  {  funcID = setInterval( function(){
+        var color = robot.getPixelColor(925,159);
         if(color === "ecda67")
         {
             n = 0;
@@ -166,10 +172,51 @@ async function delay(n){
             runActive = false;
             
         }
+        var color2 = robot.getPixelColor(261,650);
+        if(color2 === "272323")
+        {
+            
+            readyAtFurnance = true;
+        }
+        else
+        {
+        
+                
+                readyAtFurnance = false;
+            
+        }
+
+        var color3 = robot.getPixelColor(603,122);
+        if(color3 === "7a6f6f")
+        {
+            
+            bankIsOpen = true;
+        }
+        else
+        {
+            bankIsOpen = false;
+        }
+       
             
     }, 1000);}
 var runActive = false;
-    func();
+var funcID;
+
+var inventoryEmptyFuncID;
+function inventoryEmptyFunc()  {  inventoryEmptyFuncID = setInterval( function(){
+    var color3 = robot.getPixelColor(1046,662);
+    if(color3 === "3e3529")
+    {
+        
+        inventoryEmpty = true;
+    }
+    else
+    {
+        inventoryEmpty = false;
+    }
+}, 8000);}
+
+
 
 
 var img;
