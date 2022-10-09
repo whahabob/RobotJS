@@ -22,7 +22,7 @@ var n = 0;
 async function StartSmithing()
 {
    await delay(3);
-        for(let i = 0; i < 30; i++)
+        for(let i = 0; i < 7; i++)
         {
                 if(n > 180)
                 {
@@ -173,7 +173,8 @@ function func()  {  funcID = setInterval( function(){
             
         }
         var color2 = robot.getPixelColor(261,650);
-        if(color2 === "272323")
+        
+        if(color2 === "252121")
         {
             
             readyAtFurnance = true;
@@ -187,7 +188,7 @@ function func()  {  funcID = setInterval( function(){
         }
 
         var color3 = robot.getPixelColor(603,122);
-        if(color3 === "7a6f6f")
+        if(color3 === "776c6c")
         {
             
             bankIsOpen = true;
@@ -207,7 +208,6 @@ function inventoryEmptyFunc()  {  inventoryEmptyFuncID = setInterval( function()
     var color3 = robot.getPixelColor(1046,662);
     if(color3 === "3e3529")
     {
-        
         inventoryEmpty = true;
     }
     else
