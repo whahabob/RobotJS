@@ -8,20 +8,21 @@ var screenSize = robot.getScreenSize();
 var height = 1080
 var width = 1920;
 
-var furnance = {x:802, y: 299}
+var furnance = {x:789, y: 303 }
 
-var bank = {x:233, y:539};
+var bank = {x:251, y:537};
 
-var withdral = {x:620, y:565};
+var withdral = {x:620, y:540};
 
-var tinOre = {x:595, y:121};
+var tinOre = {x:595, y:120};
 var copperOre = {x:595, y:154};
-var outOfClient = {x:1405,y:1070}
+var outOfClient = {x:966,y:753}
 var n = 0;
 
 async function StartSmithing()
 {
-        for(let i = 0; i < 50; i++)
+   await delay(3);
+        for(let i = 0; i < 30; i++)
         {
                 if(n > 180)
                 {
@@ -50,7 +51,7 @@ async function StartSmithing()
                         GetSmallRandomValueAroundPoint(outOfClient.x,), 
                         GetSmallRandomValueAroundPoint(outOfClient.y),
                          true);
-                await delay(getRndInteger(44,50));
+                await delay(getRndInteger(153,165));
                 await MoveMouseSmooth(GetSmallRandomValueAroundPoint(bank.x),GetSmallRandomValueAroundPoint(bank.y),true);
                 if(runActive)
                 {
@@ -60,12 +61,14 @@ async function StartSmithing()
                 {
                         await delay(getRndInteger(5,7)*2.5);
                 }
-                await MoveMouseSmooth(GetSmallRandomValueAroundPoint(withdral.x),GetSmallRandomValueAroundPoint(withdral.y),true);
+              //  await MoveMouseSmooth(GetSmallRandomValueAroundPoint(withdral.x),GetSmallRandomValueAroundPoint(withdral.y),true);
                 await delay(getRndInteger(1,3)/10);
                 await MoveMouseSmooth(GetSmallRandomValueAroundPoint(tinOre.x),GetSmallRandomValueAroundPoint(tinOre.y),true);
                 await delay(getRndInteger(1,3)/10);
-                await MoveMouseSmooth(GetSmallRandomValueAroundPoint(copperOre.x),GetSmallRandomValueAroundPoint(copperOre.y),true);
-                await delay(getRndInteger(1,3)/10);
+                // await MoveMouseSmooth(GetSmallRandomValueAroundPoint(tinOre.x),GetSmallRandomValueAroundPoint(tinOre.y),true);
+                // await delay(getRndInteger(1,3)/10);
+                // await MoveMouseSmooth(GetSmallRandomValueAroundPoint(copperOre.x),GetSmallRandomValueAroundPoint(copperOre.y),true);
+                // await delay(getRndInteger(1,3)/10);
         }
        
 }
@@ -150,7 +153,7 @@ async function delay(n){
       }
 
       function func()  { setInterval( function(){
-        var color = robot.getPixelColor(1483,155);
+        var color = robot.getPixelColor(1,1);
         if(color === "ecda67")
         {
             n = 0;
@@ -176,48 +179,10 @@ function imgFunc()  { setInterval(function(){
              
      }, 100);}
      
-     imgFunc();
+   //  imgFunc();
 
 
-function findObjectsOnScreen()
-{
-        for(let i = 600; i < width-500; i++)
-        {
-            for(let j = 300; j < height-300; j++)
-            {
-                if(rocks.length >= 3){
-                    break;
-                }
-                let pos = { x :  getRndInteger(i, width-i), y :  getRndInteger(j, height - j) };
-                if(robot.getPixelColor(pos.x, pos.y) === "ffff00"){
-                    searching = false;
-                    console.log("Found rock 1");
-                    
-                        rocks.push({name: "rock1", x : pos.x, y : pos.y});
-                    
-                }
-                else if(robot.getPixelColor(pos.x, pos.y) === "262606"){
-                    searching = false;
-                    console.log("Found rock 2");
-                    if(rocks.filter((r) => r.name === "rock2").length == 0)
-                    {
-                        console.log(pos);
-                        rocks.push({name: "rock2", x : pos.x, y : pos.y});
-                    }
-                    
-                }
-                else if(robot.getPixelColor(pos.x, pos.y) === "4d4415"){
-                    searching = false;
-                    console.log("Found rock 3");
-                    if(rocks.filter((r) => r.name === "rock3").length == 0)
-                    {
-                        rocks.push({name: "rock3", x : pos.x, y : pos.y});
-                    }
-                }
-            }
-        }
-        
-    }
+
 
 
         

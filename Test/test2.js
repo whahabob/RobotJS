@@ -74,7 +74,7 @@ async function ClickRockAndDrop(x, y)
     let tempPos = GetRandomValueAroundPoint(x, y);
     await MoveMouseSmooth(tempPos.posX, tempPos.posY, true);
 
-    let pos2 = { posX :  getRndInteger(1476-5, 1476+5),posY : 764 }
+    let pos2 = { posX :  getRndInteger(921-5, 921+5),posY : 473 }
 
 
     await MoveMouseSmooth(pos2.posX, pos2.posY, false);
@@ -87,7 +87,7 @@ async function ClickRockAndDrop(x, y)
 async function DropOre()
 {
     console.log("Dropping" + amountOfRocks);
-    let pos2 = { posX :  getRndInteger(1476-5, 1476+5),posY : 764 }
+    let pos2 = { posX :  getRndInteger(921-5, 921+5),posY : 473 }
     amountOfRocks++;
 
 
@@ -150,7 +150,7 @@ async function delay(n){
 
 let n = 0;
 function func()  { setInterval(function(){
-    var color = robot.getPixelColor(1476,764);
+    var color = robot.getPixelColor(921,473);
     if(color === "3e3529")
     {
         n++;
@@ -377,7 +377,7 @@ function getRndInteger(min, max) {
 function imgFunc()  { setInterval(function(){
    img = robot.screen.capture(0, 0, robot.getScreenSize().width, robot.getScreenSize().height);
         
-}, 100);}
+}, 250);}
 
 imgFunc();
 
